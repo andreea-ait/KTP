@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="app">
       <h5>Press start button to start the quiz</h5>
-      <Link to="/quiz"><Button className="btn btn-primary">Start Quiz</Button></Link>
+      <Link to="/expert"><Button className="btn btn-primary">Start Quiz</Button></Link>
     </div>
   );
 }

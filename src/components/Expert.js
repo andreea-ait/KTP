@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import Questions from './Questions'
 import Button from 'react-bootstrap/Button'
 
-const Quiz = () => {
+const Expert = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
   const [userAnswers, setUserAnswers] = useState([])
@@ -24,24 +24,25 @@ const Quiz = () => {
   }
 
   const showAnswers = () => {
-    return (
-      <div> {
-        Questions[currentIndex].options.map((option) => 
-          <ul key={option}>
-            <input 
-              onClick={() => {
-                setSelectedAnswer(option)
-              }}
-              checked={selectedAnswer === option}
-              onChange={() => {}}
-              type='radio'
-            >
-            </input>
-            <label>{option}</label>
-          </ul>)
-        }
-      </div>
-    )
+    if (Questions[currentIndex].type === "radio") 
+      return (
+        <div> {
+          Questions[currentIndex].options.map((option) => 
+            <ul key={option}>
+              <input 
+                onClick={() => {
+                  setSelectedAnswer(option)
+                }}
+                checked={selectedAnswer === option}
+                onChange={() => {}}
+                type='radio'
+              >
+              </input>
+              <label>{option}</label>
+            </ul>)
+          }
+        </div>
+      )
   }
 
   const showNextButton = () => {
@@ -72,7 +73,7 @@ const Quiz = () => {
     }
   }
 
-  const restartQuiz = () => {
+  const restartExpertSystem = () => {
     setCurrentIndex(0)
     setSelectedAnswer(null)
     setUserAnswers([])
@@ -81,12 +82,12 @@ const Quiz = () => {
 
   const display = async () => {
     if (notFinished === false) {
-      restartQuiz()
+      restartExpertSystem()
     } else {
       const choice = window.confirm(
         'Are you sure you want to restart? All your answers will be lost.');
       if (choice) {
-        restartQuiz()} 
+        restartExpertSystem()} 
       }
   };
 
@@ -95,7 +96,7 @@ const Quiz = () => {
       <div>
         <br/>
         <Button onClick={display} variant="secondary">
-          Restart quiz
+          Restart expert system
         </Button>
       </div>
     )
@@ -141,4 +142,4 @@ const Quiz = () => {
   )
 }
 
-export default Quiz
+export default Expert

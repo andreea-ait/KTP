@@ -3,7 +3,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Quiz from './components/Quiz';
+import Expert from './components/Expert';
 import { render } from "react-dom";
 import Header from './components/Header';
 
@@ -16,7 +16,7 @@ render(
       <Header/>
       <Routes>
         <Route exact path="/" element={<App />} />
-        <Route exact path="/quiz" element={<Quiz />} />
+        <Route exact path="/expert" element={<Expert />} />
         {/* <Route exact path="/quizz" element={<Quizz />} /> */}
       </Routes>
     </BrowserRouter>
