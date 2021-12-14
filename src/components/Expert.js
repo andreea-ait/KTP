@@ -1,48 +1,48 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom';
 import Questions from './Questions'
-import Button from 'react-bootstrap/Button'
 import KB from './KB'
 
 
 const Expert = () => {
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const [Qid, setQid] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
-  // const [selectedOptions, setselectedOptions] = useState({})
   const [countSelectedOptions, setCountSelectedOptions] = useState(0)
-  // const [userAnswers, setUserAnswers] = useState([])
   const [notFinished, setNotFinished] = useState(true)
+  const [totalQuestions, setTotalQuestions] = useState(2)
+  const [currentQuestion, setcurrentQuestion] = useState(1)
 
   const showQuestion = () => {
     return (
       <>
-        <div className='questionNumber'>
-          <h3>
-            Question {currentIndex + 1}<br/>
-          </h3>
+        <div>
+          Question {currentQuestion}
         </div>
-        <p className='questionText'> 
-          {Questions[currentIndex].question}<br/>
-        </p>
+        <div className='questionText'> 
+          {Questions[Qid].question}<br/>
+        </div>
       </>
     )
   }
 
   const showAnswers = () => {
-    const optionsType = Questions[currentIndex].type
+    const optionsType = Questions[Qid].type
 
     if (optionsType === "radio") {
       return (showRadioOptions())
+    } else if (optionsType === "checkbox") {
+        return (showCheckboxOptions())
+    } else if (optionsType === "number") {
+        return (showNumberOption())
+    } else if (optionsType === "yes_no") {
+        return (showYesNoOptions())
     }
-    else if (optionsType === "checkbox") {
-      return (showCheckboxOptions())
-    }
-  
   }
 
   const showRadioOptions = () => {
     return (
       <div> {
-        Questions[currentIndex].options.map((option, index) => 
+        Questions[Qid].options.map((option, index) => 
           <ul key={index}>
             <input 
               onClick={() => {
@@ -51,8 +51,7 @@ const Expert = () => {
               checked={selectedAnswer === index}
               onChange={() => {}}
               type='radio'
-            >
-            </input>
+            />
             <label>{option.text}</label>
           </ul>)
         }
@@ -60,10 +59,24 @@ const Expert = () => {
     )
   }
 
+  const showNumberOption = () => {
+    return (
+      <div>
+        <label>{Questions[Qid].options[0].text}</label>{"\t"}
+        <input 
+          type='number'
+          min='1' 
+          max='100'
+          onChange={event => setSelectedAnswer(event.target.value)}
+        />
+      </div>
+    )
+  }
+
   const showCheckboxOptions = () => {
     return (
       <div> {
-        Questions[currentIndex].options.map((option) => 
+        Questions[Qid].options.map((option) => 
           <div key={option.text}>
             <input 
               onClick={() => handleCheckboxOptions(option)}
@@ -81,6 +94,35 @@ const Expert = () => {
     )
   }
 
+  const showYesNoOptions = () => {
+    return (
+      <>
+        <div>
+          <input
+            type='radio'
+            onClick={() => setSelectedAnswer(true)}
+            checked={selectedAnswer === true}
+            onChange={() => {}}
+            name='yes_no'
+          >
+          </input>
+          <label>Yes</label>
+        </div>
+        <div>
+          <input
+            type='radio'
+            onClick={() => setSelectedAnswer(false)}
+            checked={selectedAnswer === false}
+            onChange={() => {}}
+            name='yes_no'
+          >
+          </input>
+          <label>No</label>
+        </div>
+      </>
+    )
+  }
+
   const handleCheckboxOptions = (option) => {
     option.fact_value = !option.fact_value
     option.fact_value ? (
@@ -92,67 +134,92 @@ const Expert = () => {
 
   const showNextButton = () => {
     let buttonName = ""
-    buttonName = (currentIndex + 1 < Questions.length) ?
+    let buttonDisabled = false
+    const optionType = Questions[Qid].type
+
+    buttonName = (currentQuestion < totalQuestions + 1) ?
       ("Next question") : ("Show result")
 
-    if (Questions[currentIndex].type === 'radio') {
-      return (
-        <>
-        <button 
-          onClick={handleNextQuestion} 
-          className="btn btn-primary"
-          disabled={selectedAnswer === null}
-        >
-          {buttonName}
-        </button>
-        </>
-      )
-    } else if (Questions[currentIndex].type === 'checkbox') {
-      return (
-        <>
-        <button 
-          onClick={handleNextQuestion} 
-          className="btn btn-primary"
-          disabled={countSelectedOptions === 0}
-        >
-          {buttonName}
-        </button>
-        </>
+    if (optionType === 'radio' || optionType === 'yes_no') {
+      buttonDisabled = (selectedAnswer === null)
+    } else if (optionType === 'checkbox') {
+      buttonDisabled = (countSelectedOptions === 0)
+    } else if (optionType === 'number') {
+      buttonDisabled = (
+        selectedAnswer === null ||
+        selectedAnswer < 1
       )
     }
-    
+
+    return (
+      <>
+        <br/>
+        <button 
+          onClick={handleNextQuestion} 
+          className="btn btn-primary"
+          disabled={buttonDisabled}
+        >
+          {buttonName}
+        </button>
+      </>
+    )
   }
 
   const handleNextQuestion = () => {
-    if (Questions[currentIndex].type === 'radio') {
-      Questions[currentIndex].options[selectedAnswer].fact_value = true
-      setSelectedAnswer(null)
-    } else if (Questions[currentIndex].type === 'checkbox') {
-      setCountSelectedOptions(0)
+    const optionsType = Questions[Qid].type
+    let options = Questions[Qid].options
+    
+    if (optionsType === 'radio') {
+      options[selectedAnswer].fact_value = true
+    } else if (optionsType === 'checkbox') {
+        setCountSelectedOptions(0)
+    } else if (optionsType === 'number') {        
+        options[0].fact_value = selectedAnswer
+    } else if (optionsType === 'yes_no') {
+        options[0].fact_value = selectedAnswer
     }
 
-    Questions[currentIndex].options.map((option) => 
-      KB.facts[option.fact_key] = option.fact_value
+    // add new facts to the knowledge base
+      options.map((option) => 
+        KB.facts[option.fact_key] = option.fact_value
     )
-    // setUserAnswers([...userAnswers, selectedAnswer])
-    // setSelectedAnswer(null)
-    // setCountSelectedOptions(0)
 
-    if (currentIndex + 1 < Questions.length) {
-      setCurrentIndex(currentIndex + 1)
+    if (Qid === 0) {
+      if (selectedAnswer === 0) {
+        setTotalQuestions(2)
+        setQid(1)
+      } else if (selectedAnswer === 1) {
+          setTotalQuestions(5)
+          setQid(4)
+      } else {
+          setcurrentQuestion(1)
+          setQid(9)
+      }
+      setcurrentQuestion(2)
+      return
+    }
+
+    setSelectedAnswer(null)
+
+    if (currentQuestion < totalQuestions + 1) {
+      setQid(Qid + 1)
+      setcurrentQuestion(currentQuestion + 1)
     } else {
-      setNotFinished(false)
+        setNotFinished(false)
     }
   }
 
   const restartExpertSystem = () => {
-    setCurrentIndex(0)
+    setQid(0)
     setSelectedAnswer(null)
     setNotFinished(true)
     setCountSelectedOptions(0)
+    setcurrentQuestion(1)
+    KB.facts = {}
+    Questions[0].options.map((option) => option.fact_value = false)
   }
 
-  const display = async () => {
+  const displayRestartAlert = async () => {
     if (notFinished === false) {
       restartExpertSystem()
     } else {
@@ -167,9 +234,9 @@ const Expert = () => {
     return (
       <div>
         <br/>
-        <Button onClick={display} variant="secondary">
+        <button onClick={displayRestartAlert} className="btn btn-secondary">
           Restart expert system
-        </Button>
+        </button>
       </div>
     )
   }
@@ -185,7 +252,7 @@ const Expert = () => {
           Object.entries(KB.facts)
             .map(([key,value]) => (
               <div key={key}>
-              {key}: {value ? "true" : "false"} <br/>
+              {key}: {"" + value} <br/>
               </div>
             ))
         }
@@ -194,16 +261,30 @@ const Expert = () => {
       </>
     )
   }
-  
+
+  // useEffect(() => {
+  //   window.onbeforeunload = function() {
+  //       return true;
+  //   }
+  //   return () => {
+  //       window.onbeforeunload = null;
+  //   }
+  // }, [])
+
+  const location = useLocation()
+  useEffect(() => {
+    restartExpertSystem()
+  }, [location])
+
 
   return (
     <div className='quiz'>
       {notFinished ? (
-        <div>
+        <>
           {showQuestion()}
           {showAnswers()}
           {showNextButton()}
-        </div>
+        </>
       ) : (
         <>
           {showResult()}

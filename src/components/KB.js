@@ -1,22 +1,14 @@
 const KB = 
   {
     facts: {
-      // {predicate: [argument1, argument2, ...]}
-      // playForzaHor: ["Adi", "Rares"],
-      // waterThePlants: ["Andra"],
-      // doDebugging: ["Rares"],
-      // paintNails: ["Andreea"],
-      // learnForExam: ["Adi", "Andra"]
+      // predicate: [argument1, argument2, ...]
+
     },
 
     rules: {
 
-      // {conclusion: [premise1, premise2, ...]}
-      // haveTimeToLearn: [!playForzaHor],
-      // passExam: [learnForExam],
-      // havePrettyNails: [paintNails],
-      // goodProgrammer: [doDebugging],
-      // haveNicePlants: [waterThePlants]
+      // conclusion: [fact1, fact2, ...]
+      movement_sensors: {'burglary': true, }
     }
   }
 
