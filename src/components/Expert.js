@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import KB from './KB'
 import Questions from './Questions';
-import {Button} from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 
-let factsFromAnswers = {}
-let inferredFacts = {}
+// let factsFromAnswers = {}
+// let inferredFacts = {}
 
 const Expert = () => {
   const [questions, setQuestions] = useState([...Questions])
-  const [kb, setKB] = useState({...KB})
+  const [kb, setKB] = useState(JSON.parse(JSON.stringify(KB)))
+
+  const [factsFromAnswers, setFactsFromAnswers] = useState({})
+  const [inferredFacts, setInferredFacts] = useState({})
 
   const [index, setIndex] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
@@ -105,8 +108,8 @@ const Expert = () => {
   const showYesNoOptions = () => {
     return (
       <>
-        <div>
-          <input
+        <ul key='yes'>
+          <input 
             type='radio'
             onClick={() => setSelectedAnswer(true)}
             checked={selectedAnswer === true}
@@ -115,9 +118,10 @@ const Expert = () => {
           >
           </input>
           <label>Yes</label>
-        </div>
-        <div>
-          <input
+          {/* <br/><br/> */}
+        </ul>
+        <ul key='no'>
+          <input key='no'
             type='radio'
             onClick={() => setSelectedAnswer(false)}
             checked={selectedAnswer === false}
@@ -126,7 +130,7 @@ const Expert = () => {
           >
           </input>
           <label>No</label>
-        </div>
+        </ul>
       </>
     )
   }
@@ -270,7 +274,10 @@ const Expert = () => {
     setFinal(false)
     setIndex(0)
     setCountSelectedOptions(0)
-    setKB({...KB})
+    setShowF(false)
+    setKB(JSON.parse(JSON.stringify(KB)))
+    setFactsFromAnswers({})
+    setInferredFacts({})
     setQuestions([...Questions])
     setcurrentQuestion(Questions[0])
   }
@@ -300,9 +307,9 @@ const Expert = () => {
   const showFacts = () => {
     return (
       <>
-        <h3 className='result'>
+        <h5 className='result'>
         New facts added to KB: <br/>
-        </h3>
+        </h5>
         <div>
         {
           Object.entries(factsFromAnswers)
@@ -315,9 +322,9 @@ const Expert = () => {
         <br/>
         </div>
 
-        <h3 className='result'>
+        <h5 className='result'>
         New facts inferred from the rules: <br/>
-        </h3>
+        </h5>
         <div>
         {
           Object.entries(inferredFacts)
@@ -336,7 +343,8 @@ const Expert = () => {
   const showFactsButton = () => {
     return (
       <>
-        <Button variant="primary" onClick={() => {setShowF(!showF)}}>
+        <br/><br/>
+        <Button variant="info" onClick={() => {setShowF(!showF)}}>
           Show Facts
         </Button>
 
@@ -381,15 +389,14 @@ const Expert = () => {
           {showQuestion()}
           {showAnswers()}
           {showNextButton()}
-          {showFactsButton()}
         </>
       ) : (
         <>
-          {/* {showFacts()} */}
           Here comes the result
         </>
       )
       }
+      {showFactsButton()}
       {showRestartButton()}
     </div>
   )

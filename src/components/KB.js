@@ -5,8 +5,8 @@ const KB =
       // 'flat': null,
       // 'house': null, 
       // 'access_control': null,
-      'fact1': true,
-      'fact2': true
+      // 'fact1': true,
+      // 'fact2': true
     },
 
     // rules: {
@@ -28,6 +28,13 @@ const KB =
         premises_values: [true],
         conclusion_key: 'access_control',
         conclusion_value: true
+      },
+
+      {
+        premises_keys: ['flat'],
+        premises_values: [true],
+        conclusion_key: 'access_control',
+        conclusion_value: false
       }
     ]
   }
