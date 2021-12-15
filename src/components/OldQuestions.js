@@ -1,4 +1,4 @@
-const Questions = [
+const OldQuestions = [
     {
         id: 0,
         type: "radio",
@@ -143,4 +143,4 @@ const Questions = [
     },
 ]
 
-export default Questions
+export default OldQuestions

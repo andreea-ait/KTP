@@ -1,32 +1,40 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
-import Questions from './Questions'
 import KB from './KB'
+import Questions from './Questions';
+import {Button} from 'react-bootstrap'
+import Offcanvas from 'react-bootstrap/Offcanvas'
 
+let factsFromAnswers = {}
+let inferredFacts = {}
 
 const Expert = () => {
-  const [Qid, setQid] = useState(0)
+  const [questions, setQuestions] = useState([...Questions])
+  const [kb, setKB] = useState({...KB})
+
+  const [index, setIndex] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
   const [countSelectedOptions, setCountSelectedOptions] = useState(0)
   const [notFinished, setNotFinished] = useState(true)
-  const [totalQuestions, setTotalQuestions] = useState(2)
-  const [currentQuestion, setcurrentQuestion] = useState(1)
+  const [currentQuestion, setcurrentQuestion] = useState(questions[0])
+  const [final, setFinal] = useState(false)
+  const [showF, setShowF] = useState(false)
 
   const showQuestion = () => {
     return (
       <>
         <div>
-          Question {currentQuestion}
+          Question {index + 1}
         </div>
         <div className='questionText'> 
-          {Questions[Qid].question}<br/>
+          {currentQuestion.text}<br/>
         </div>
       </>
     )
   }
 
   const showAnswers = () => {
-    const optionsType = Questions[Qid].type
+    const optionsType = currentQuestion.type
 
     if (optionsType === "radio") {
       return (showRadioOptions())
@@ -42,7 +50,7 @@ const Expert = () => {
   const showRadioOptions = () => {
     return (
       <div> {
-        Questions[Qid].options.map((option, index) => 
+        currentQuestion.options.map((option, index) => 
           <ul key={index}>
             <input 
               onClick={() => {
@@ -62,7 +70,7 @@ const Expert = () => {
   const showNumberOption = () => {
     return (
       <div>
-        <label>{Questions[Qid].options[0].text}</label>{"\t"}
+        <label>{currentQuestion.options[0].text}</label>{"\t"}
         <input 
           type='number'
           min='1' 
@@ -76,7 +84,7 @@ const Expert = () => {
   const showCheckboxOptions = () => {
     return (
       <div> {
-        Questions[Qid].options.map((option) => 
+        currentQuestion.options.map((option) => 
           <div key={option.text}>
             <input 
               onClick={() => handleCheckboxOptions(option)}
@@ -135,10 +143,10 @@ const Expert = () => {
   const showNextButton = () => {
     let buttonName = ""
     let buttonDisabled = false
-    const optionType = Questions[Qid].type
+    const optionType = currentQuestion.type
 
-    buttonName = (currentQuestion < totalQuestions + 1) ?
-      ("Next question") : ("Show result")
+    buttonName = (final) ?
+      ("Show result") : ("Submit answer")
 
     if (optionType === 'radio' || optionType === 'yes_no') {
       buttonDisabled = (selectedAnswer === null)
@@ -166,8 +174,8 @@ const Expert = () => {
   }
 
   const handleNextQuestion = () => {
-    const optionsType = Questions[Qid].type
-    let options = Questions[Qid].options
+    const optionsType = currentQuestion.type
+    let options = currentQuestion.options
     
     if (optionsType === 'radio') {
       options[selectedAnswer].fact_value = true
@@ -180,43 +188,91 @@ const Expert = () => {
     }
 
     // add new facts to the knowledge base
-      options.map((option) => 
-        KB.facts[option.fact_key] = option.fact_value
+    options.forEach((option) => {
+      kb.facts[option.fact_key] = option.fact_value
+      factsFromAnswers[option.fact_key] = option.fact_value
+    }
     )
 
-    if (Qid === 0) {
-      if (selectedAnswer === 0) {
-        setTotalQuestions(2)
-        setQid(1)
-      } else if (selectedAnswer === 1) {
-          setTotalQuestions(5)
-          setQid(4)
-      } else {
-          setcurrentQuestion(1)
-          setQid(9)
-      }
-      setcurrentQuestion(2)
+    forwardChaining()
+
+    setSelectedAnswer(null)
+    setcurrentQuestion(null)
+    
+    const idx = questions.indexOf(currentQuestion)
+    questions.splice(idx, 1)
+
+    if (questions.length < 1 || final) {
+      setNotFinished(false)
       return
     }
 
-    setSelectedAnswer(null)
+    let foundNextQuestion = false
 
-    if (currentQuestion < totalQuestions + 1) {
-      setQid(Qid + 1)
-      setcurrentQuestion(currentQuestion + 1)
-    } else {
-        setNotFinished(false)
+    questions.map((question) => {
+      if (Object.keys(question.requirements).length === 0 && 
+          !question.final) {
+        foundNextQuestion = true
+        return (setcurrentQuestion(question))
+      }
+
+      Object.entries(question.requirements).map(([req_key, req_value]) => {
+        if (kb.facts[req_key] === req_value) {
+          foundNextQuestion = true
+          return (setcurrentQuestion(question))
+        }
+        return ({})
+      })
+      return ({})
+    })
+
+    if (!foundNextQuestion) {
+      setcurrentQuestion(questions.find((question) => question.final))
+      setFinal(true)
+    }
+    setIndex(index + 1)
+  }
+
+  const forwardChaining = () => {
+    let stop = false
+    while (!stop) {
+      let new_rules = 0
+      // loop over all rules
+      kb.rules.forEach((rule) => {
+        // loop over all premises in the rule
+        let flag = 1
+        rule.premises_keys.forEach((key,idx) => {
+          let value = rule.premises_values[idx]
+          if (kb.facts[key] !== value) {
+            flag = 0
+          }
+        })
+        if (flag === 1) {
+          let key = rule.conclusion_key
+          let value = rule.conclusion_value
+          if (kb.facts[key] !== value) {
+            // new rule found
+            new_rules = new_rules + 1
+            kb.facts[key] = value
+            inferredFacts[key] = value
+          }
+        }
+      })
+      if (new_rules === 0) {
+        stop = true
+      }
     }
   }
 
   const restartExpertSystem = () => {
-    setQid(0)
     setSelectedAnswer(null)
     setNotFinished(true)
+    setFinal(false)
+    setIndex(0)
     setCountSelectedOptions(0)
-    setcurrentQuestion(1)
-    KB.facts = {}
-    Questions[0].options.map((option) => option.fact_value = false)
+    setKB({...KB})
+    setQuestions([...Questions])
+    setcurrentQuestion(Questions[0])
   }
 
   const displayRestartAlert = async () => {
@@ -241,15 +297,15 @@ const Expert = () => {
     )
   }
 
-  const showResult = () => {
+  const showFacts = () => {
     return (
       <>
-        <h2 className='result'>
+        <h3 className='result'>
         New facts added to KB: <br/>
-        </h2>
+        </h3>
         <div>
         {
-          Object.entries(KB.facts)
+          Object.entries(factsFromAnswers)
             .map(([key,value]) => (
               <div key={key}>
               {key}: {"" + value} <br/>
@@ -258,6 +314,47 @@ const Expert = () => {
         }
         <br/>
         </div>
+
+        <h3 className='result'>
+        New facts inferred from the rules: <br/>
+        </h3>
+        <div>
+        {
+          Object.entries(inferredFacts)
+            .map(([key,value]) => (
+              <div key={key}>
+              {key}: {"" + value} <br/>
+              </div>
+            ))
+        }
+        <br/>
+        </div>
+      </>
+    )
+  }
+
+  const showFactsButton = () => {
+    return (
+      <>
+        <Button variant="primary" onClick={() => {setShowF(!showF)}}>
+          Show Facts
+        </Button>
+
+        <Offcanvas 
+          show={showF}
+          onHide={() => setShowF(false)}
+          placement='end'
+          // name: 'Enable both scrolling & backdrop'
+          scroll={true}
+          backdrop={true}
+        >
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Facts known so far</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            {showFacts()}
+          </Offcanvas.Body>
+        </Offcanvas>
       </>
     )
   }
@@ -284,10 +381,12 @@ const Expert = () => {
           {showQuestion()}
           {showAnswers()}
           {showNextButton()}
+          {showFactsButton()}
         </>
       ) : (
         <>
-          {showResult()}
+          {/* {showFacts()} */}
+          Here comes the result
         </>
       )
       }
