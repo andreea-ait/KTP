@@ -2,16 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import KB from './KB'
 import Questions from './Questions';
-import { Button } from 'react-bootstrap'
-import Offcanvas from 'react-bootstrap/Offcanvas'
+import FactsButton from './FactsButton';
+import Chaining from './Chaining';
 
-// let factsFromAnswers = {}
-// let inferredFacts = {}
 
 const Expert = () => {
   const [questions, setQuestions] = useState([...Questions])
   const [kb, setKB] = useState(JSON.parse(JSON.stringify(KB)))
-
   const [factsFromAnswers, setFactsFromAnswers] = useState({})
   const [inferredFacts, setInferredFacts] = useState({})
 
@@ -21,7 +18,6 @@ const Expert = () => {
   const [notFinished, setNotFinished] = useState(true)
   const [currentQuestion, setcurrentQuestion] = useState(questions[0])
   const [final, setFinal] = useState(false)
-  const [showF, setShowF] = useState(false)
 
   const showQuestion = () => {
     return (
@@ -191,14 +187,7 @@ const Expert = () => {
         options[0].fact_value = selectedAnswer
     }
 
-    // add new facts to the knowledge base
-    options.forEach((option) => {
-      kb.facts[option.fact_key] = option.fact_value
-      factsFromAnswers[option.fact_key] = option.fact_value
-    }
-    )
-
-    forwardChaining()
+    Chaining(options, kb, factsFromAnswers, inferredFacts)
 
     setSelectedAnswer(null)
     setcurrentQuestion(null)
@@ -211,60 +200,33 @@ const Expert = () => {
       return
     }
 
-    let foundNextQuestion = false
-
-    questions.map((question) => {
-      if (Object.keys(question.requirements).length === 0 && 
-          !question.final) {
-        foundNextQuestion = true
-        return (setcurrentQuestion(question))
-      }
-
-      Object.entries(question.requirements).map(([req_key, req_value]) => {
-        if (kb.facts[req_key] === req_value) {
-          foundNextQuestion = true
-          return (setcurrentQuestion(question))
-        }
-        return ({})
-      })
-      return ({})
-    })
-
-    if (!foundNextQuestion) {
-      setcurrentQuestion(questions.find((question) => question.final))
-      setFinal(true)
-    }
+    setNextQuestion()
     setIndex(index + 1)
   }
 
-  const forwardChaining = () => {
-    let stop = false
-    while (!stop) {
-      let new_rules = 0
-      // loop over all rules
-      kb.rules.forEach((rule) => {
-        // loop over all premises in the rule
-        let flag = 1
-        rule.premises_keys.forEach((key,idx) => {
-          let value = rule.premises_values[idx]
-          if (kb.facts[key] !== value) {
-            flag = 0
-          }
-        })
-        if (flag === 1) {
-          let key = rule.conclusion_key
-          let value = rule.conclusion_value
-          if (kb.facts[key] !== value) {
-            // new rule found
-            new_rules = new_rules + 1
-            kb.facts[key] = value
-            inferredFacts[key] = value
-          }
+  const setNextQuestion = () => {
+    let foundNextQuestion = false
+
+    questions.forEach((question) => {
+      if (Object.keys(question.requirements).length === 0 && 
+          !question.final) {
+        foundNextQuestion = true
+         setcurrentQuestion(question)
+      }
+
+      Object.entries(question.requirements).forEach(([req_key, req_value]) => {
+        if (kb.facts[req_key] === req_value) {
+          foundNextQuestion = true
+          setcurrentQuestion(question)
         }
       })
-      if (new_rules === 0) {
-        stop = true
-      }
+    })
+
+    if (!foundNextQuestion) {
+      setcurrentQuestion(questions.find((question) => 
+        question.final
+      ))
+      setFinal(true)
     }
   }
 
@@ -274,7 +236,6 @@ const Expert = () => {
     setFinal(false)
     setIndex(0)
     setCountSelectedOptions(0)
-    setShowF(false)
     setKB(JSON.parse(JSON.stringify(KB)))
     setFactsFromAnswers({})
     setInferredFacts({})
@@ -297,73 +258,13 @@ const Expert = () => {
     return (
       <div>
         <br/>
-        <button onClick={displayRestartAlert} className="btn btn-secondary">
+        <button 
+          onClick={displayRestartAlert} 
+          className="btn btn-secondary"
+        >
           Restart expert system
         </button>
       </div>
-    )
-  }
-
-  const showFacts = () => {
-    return (
-      <>
-        <h5 className='result'>
-        New facts added to KB: <br/>
-        </h5>
-        <div>
-        {
-          Object.entries(factsFromAnswers)
-            .map(([key,value]) => (
-              <div key={key}>
-              {key}: {"" + value} <br/>
-              </div>
-            ))
-        }
-        <br/>
-        </div>
-
-        <h5 className='result'>
-        New facts inferred from the rules: <br/>
-        </h5>
-        <div>
-        {
-          Object.entries(inferredFacts)
-            .map(([key,value]) => (
-              <div key={key}>
-              {key}: {"" + value} <br/>
-              </div>
-            ))
-        }
-        <br/>
-        </div>
-      </>
-    )
-  }
-
-  const showFactsButton = () => {
-    return (
-      <>
-        <br/><br/>
-        <Button variant="info" onClick={() => {setShowF(!showF)}}>
-          Show Facts
-        </Button>
-
-        <Offcanvas 
-          show={showF}
-          onHide={() => setShowF(false)}
-          placement='end'
-          // name: 'Enable both scrolling & backdrop'
-          scroll={true}
-          backdrop={true}
-        >
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Facts known so far</Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body>
-            {showFacts()}
-          </Offcanvas.Body>
-        </Offcanvas>
-      </>
     )
   }
 
@@ -396,7 +297,8 @@ const Expert = () => {
         </>
       )
       }
-      {showFactsButton()}
+      {/* {showFactsButton()} */}
+      {FactsButton(factsFromAnswers, inferredFacts)}
       {showRestartButton()}
     </div>
   )
