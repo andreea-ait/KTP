@@ -294,6 +294,21 @@ const Expert = () => {
       ) : (
         <>
           Here comes the result
+          <br/>
+          <h5 className='result'>
+        All KB facts: <br/>
+        </h5>
+        <div>
+        {
+          Object.entries(kb.facts)
+            .map(([key,value]) => (
+              <div key={key}>
+              {key}: {"" + value} <br/>
+              </div>
+            ))
+        }
+        <br/>
+        </div>
         </>
       )
       }

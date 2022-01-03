@@ -34,6 +34,7 @@ const Chaining = (options, kb, factsFromAnswers, inferredFacts) => {
             new_rules = new_rules + 1
             kb.facts[key] = value
             inferredFacts[key] = value
+            kb.facts['risk'] += rule.score
           }
         }
       })

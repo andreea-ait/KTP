@@ -8,7 +8,7 @@ const FactsButton = (factsFromAnswers, inferredFacts) => {
   const showFacts = () => {
     return (
       <>
-        <h5 className='result'>
+       <h5 className='result'>
         New facts added to KB: <br/>
         </h5>
         <div>

@@ -15,7 +15,6 @@ const Questions = [
         fact_key: 'house',
         fact_value: false
       },
-
     ]
   },
 
