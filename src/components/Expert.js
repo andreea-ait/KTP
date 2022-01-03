@@ -22,10 +22,10 @@ const Expert = () => {
   const showQuestion = () => {
     return (
       <>
-        <div>
+        <div className='text-white mt-2'>
           Question {index + 1}
         </div>
-        <div className='questionText'> 
+        <div className='questionText text-white mt-2'> 
           {currentQuestion.text}<br/>
         </div>
       </>
@@ -48,7 +48,7 @@ const Expert = () => {
 
   const showRadioOptions = () => {
     return (
-      <div> {
+      <div className='text-white mt-3'> {
         currentQuestion.options.map((option, index) => 
           <ul key={index}>
             <input 
@@ -68,7 +68,7 @@ const Expert = () => {
 
   const showNumberOption = () => {
     return (
-      <div>
+      <div className='text-white mt-3'>
         <label>{currentQuestion.options[0].text}</label>{"\t"}
         <input 
           type='number'
@@ -82,7 +82,7 @@ const Expert = () => {
 
   const showCheckboxOptions = () => {
     return (
-      <div> {
+      <div className='text-white mt-3'> {
         currentQuestion.options.map((option) => 
           <div key={option.text}>
             <input 
@@ -103,7 +103,7 @@ const Expert = () => {
 
   const showYesNoOptions = () => {
     return (
-      <>
+      <div className='text-white mt-3'>
         <ul key='yes'>
           <input 
             type='radio'
@@ -127,7 +127,7 @@ const Expert = () => {
           </input>
           <label>No</label>
         </ul>
-      </>
+      </div>
     )
   }
 
@@ -185,6 +185,10 @@ const Expert = () => {
         options[0].fact_value = selectedAnswer
     } else if (optionsType === 'yes_no') {
         options[0].fact_value = selectedAnswer
+    }
+
+    if (options[0].score > 0 && selectedAnswer){
+      kb.facts['safety'] += options[0].score
     }
 
     Chaining(options, kb, factsFromAnswers, inferredFacts)
@@ -293,11 +297,10 @@ const Expert = () => {
         </>
       ) : (
         <>
-          Here comes the result
-          <br/>
-          <h5 className='result'>
-        All KB facts: <br/>
-        </h5>
+          <div className='text-white mt-3'>
+            Here comes the result
+            <br/><h5 className='result'> All KB facts: <br/></h5>
+          </div>
         <div>
         {
           Object.entries(kb.facts)
@@ -313,7 +316,7 @@ const Expert = () => {
       )
       }
       {/* {showFactsButton()} */}
-      {FactsButton(factsFromAnswers, inferredFacts)}
+      {FactsButton(factsFromAnswers, inferredFacts, kb.facts['safety'])}
       {showRestartButton()}
     </div>
   )

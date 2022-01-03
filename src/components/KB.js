@@ -5,9 +5,9 @@ const KB =
       // 'flat': null,
       // 'house': null, 
       // 'access_control': null,
-      'fact1': true,
-      'fact2': true,
-      'risk': 0
+      // 'fact1': true,
+      // 'fact2': true,
+      'safety': 0
     },
 
     // rules: {
