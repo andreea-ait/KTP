@@ -18,8 +18,20 @@ const Questions = [
       },
     ]
   },
-
-  
+//BOTH
+  {
+    text: "Do you have an alarm system?",
+    type: 'yes_no',
+    requirements: {},
+    options: [
+      {
+        text: "",
+        fact_key: 'alarm',
+        fact_value: false,
+        score: 25
+      }
+    ]
+  },
 //FLAT
   {
     text: "Do you have a metal door at you flat's entrance?",
@@ -34,7 +46,131 @@ const Questions = [
       }
     ]
   },
-  
+
+  {
+    text: "Do you have a contract with a rapid response team in case of a break in?",
+    type: 'yes_no',
+    requirements: {'flat': true},
+    options: [
+      {
+        text: "",
+        fact_key: 'flat_rapid_response',
+        fact_value: false, 
+        score: 10
+      }
+    ]
+  },
+
+  {
+    text: "Do you have a surveillance system?",
+    type: 'yes_no',
+    requirements: {'flat': true},
+    options: [
+      {
+        text: "",
+        fact_key: 'flat_surveillince',
+        fact_value: false, 
+        score: 25
+      }
+    ]
+  },
+
+  {
+    text: "Do you have a fire alarm system?",
+    type: 'yes_no',
+    requirements: {'flat': true},
+    options: [
+      {
+        text: "",
+        fact_key: 'flat_fire',
+        fact_value: false, 
+        score: 5
+      }
+    ]
+  },
+
+  {
+    text: "Do you have a safe box?",
+    type: 'yes_no',
+    requirements: {'flat': true},
+    options: [
+      {
+        text: "",
+        fact_key: 'flat_safe_box',
+        fact_value: false, 
+        score: 5
+      }
+    ]
+  },
+
+  {
+    text: "Do you have an intercom system?",
+    type: 'yes_no',
+    requirements: {'flat': true},
+    options: [
+      {
+        text: "",
+        fact_key: 'flat_intercom',
+        fact_value: false, 
+        score: 10
+      }
+    ]
+  },
+
+  {
+    text: "Do you live on the ground floor?",
+    type: 'yes_no',
+    requirements: {'flat': true},
+    options: [
+      {
+        text: "",
+        fact_key: 'ground_floor',
+        fact_value: false
+      }
+    ]
+  },
+
+  {
+    text: "Do you have bars on ground floor windows?",
+    type: 'yes_no',
+    requirements: {'ground_floor': true},
+    options: [
+      {
+        text: "",
+        fact_key: 'ground_floor_windows',
+        fact_value: false, 
+        score: 5
+      }
+    ]
+  },
+
+  {
+    text: "Do you have a security guard at the entrance of the immobile?",
+    type: 'yes_no',
+    requirements: {'ground_floor': false},
+    options: [
+      {
+        text: "",
+        fact_key: 'guard_not_ground_floor',
+        fact_value: false,
+        score: 10
+      }
+    ]
+  },
+
+  {
+    text: "Do you have a security guard at the entrance of the immobile?",
+    type: 'yes_no',
+    requirements: {'ground_floor': true},
+    options: [
+      {
+        text: "",
+        fact_key: 'guard_ground_floor',
+        fact_value: false, 
+        score: 5
+      }
+    ]
+  },
 //HOUSE
   {
     text: "Do you have a fence higher than 2.5 meters?",
@@ -120,8 +256,6 @@ const Questions = [
     ]
   },
 
-
-
   {
     text: "Do you have a contract with a rapid response team in case of a break in?",
     type: 'yes_no',
@@ -157,7 +291,7 @@ const Questions = [
     options: [
       {
         text: "",
-        fact_key: 'fire_alarm',
+        fact_key: 'fire',
         fact_value: false, 
         score: 10
       }

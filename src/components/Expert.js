@@ -299,19 +299,7 @@ const Expert = () => {
         <>
           <div className='text-white mt-3'>
             Here comes the result
-            <br/><h5 className='result'> All KB facts: <br/></h5>
           </div>
-        <div>
-        {
-          Object.entries(kb.facts)
-            .map(([key,value]) => (
-              <div key={key}>
-              {key}: {"" + value} <br/>
-              </div>
-            ))
-        }
-        <br/>
-        </div>
         </>
       )
       }
