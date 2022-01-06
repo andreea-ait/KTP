@@ -8,13 +8,15 @@ const Questions = [
       {
         text: "Apartment/Flat",
         fact_key: 'flat',
-        fact_value: false
+        fact_value: false,
+        score: 0
       },
 
       {
         text: "House",
         fact_key: 'house',
-        fact_value: false
+        fact_value: false,
+        score: 0
       },
     ]
   },
@@ -40,7 +42,7 @@ const Questions = [
     options: [
       {
         text: "",
-        fact_key: 'fence',
+        fact_key: 'metal_door',
         fact_value: false,
         score: 10
       }
@@ -50,7 +52,7 @@ const Questions = [
   {
     text: "Do you have a contract with a rapid response team in case of a break in?",
     type: 'yes_no',
-    requirements: {'flat': true},
+    requirements: {'flat': true, 'alarm': true},
     options: [
       {
         text: "",
@@ -68,7 +70,7 @@ const Questions = [
     options: [
       {
         text: "",
-        fact_key: 'flat_surveillince',
+        fact_key: 'flat_surveillance',
         fact_value: false, 
         score: 25
       }
@@ -125,7 +127,8 @@ const Questions = [
       {
         text: "",
         fact_key: 'ground_floor',
-        fact_value: false
+        fact_value: false,
+        score: 0
       }
     ]
   },
@@ -137,7 +140,7 @@ const Questions = [
     options: [
       {
         text: "",
-        fact_key: 'ground_floor_windows',
+        fact_key: 'ground_floor_bars',
         fact_value: false, 
         score: 5
       }
@@ -259,11 +262,11 @@ const Questions = [
   {
     text: "Do you have a contract with a rapid response team in case of a break in?",
     type: 'yes_no',
-    requirements: {'house': true},
+    requirements: {'house': true, 'alarm': true},
     options: [
       {
         text: "",
-        fact_key: 'rapid_response',
+        fact_key: 'house_rapid_response',
         fact_value: false, 
         score: 14
       }
@@ -348,7 +351,8 @@ const Questions = [
       {
         text: "",
         fact_key: 'remote',
-        fact_value: false
+        fact_value: false,
+        score: 0
       }
     ]
   },
@@ -409,7 +413,6 @@ const Questions = [
     ]
   },
 
-
   {
     text: "Do you feel safe when you are home alone in general?",
     type: 'yes_no',
@@ -419,7 +422,8 @@ const Questions = [
       {
         text: "",
         fact_key: 'feel_safe',
-        fact_value: false
+        fact_value: false,
+        score: 0
       }
     ]
   }

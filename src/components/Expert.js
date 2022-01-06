@@ -19,6 +19,8 @@ const Expert = () => {
   const [currentQuestion, setcurrentQuestion] = useState(questions[0])
   const [final, setFinal] = useState(false)
 
+  const [safety, setSafety] = useState(0)
+
   const showQuestion = () => {
     return (
       <>
@@ -188,7 +190,7 @@ const Expert = () => {
     }
 
     if (options[0].score > 0 && selectedAnswer){
-      kb.facts['safety'] += options[0].score
+      setSafety(safety + options[0].score)
     }
 
     Chaining(options, kb, factsFromAnswers, inferredFacts)
@@ -303,8 +305,7 @@ const Expert = () => {
         </>
       )
       }
-      {/* {showFactsButton()} */}
-      {FactsButton(factsFromAnswers, inferredFacts, kb.facts['safety'])}
+      {FactsButton(factsFromAnswers, inferredFacts, safety)}
       {showRestartButton()}
     </div>
   )
