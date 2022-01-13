@@ -11,6 +11,7 @@ const Expert = () => {
   const [kb, setKB] = useState(JSON.parse(JSON.stringify(KB)))
   const [factsFromAnswers, setFactsFromAnswers] = useState({})
   const [inferredFacts, setInferredFacts] = useState({})
+  const [conclusionFacts, setConclusionFacts] = useState({})
 
   const [index, setIndex] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
@@ -193,7 +194,7 @@ const Expert = () => {
       setSafety(safety + options[0].score)
     }
 
-    Chaining(options, kb, factsFromAnswers, inferredFacts)
+    Chaining(options, kb, factsFromAnswers, inferredFacts, conclusionFacts)
 
     setSelectedAnswer(null)
     setcurrentQuestion(null)
@@ -211,28 +212,26 @@ const Expert = () => {
   }
 
   const setNextQuestion = () => {
-    let foundNextQuestion = false
+    // let foundNextQuestion = false
+    let nextQuestion = null
 
-    questions.forEach((question) => {
-      if (Object.keys(question.requirements).length === 0 && 
-          !question.final) {
-        foundNextQuestion = true
-         setcurrentQuestion(question)
-      }
-
-      Object.entries(question.requirements).forEach(([req_key, req_value]) => {
-        if (kb.facts[req_key] === req_value) {
-          foundNextQuestion = true
-          setcurrentQuestion(question)
-        }
-      })
+    nextQuestion = questions.find((question) => {
+      return (Object.keys(question.requirements).length === 0 && !question.final) || 
+        (Object.entries(question.requirements).every(([req_key, req_value]) => (
+          kb.facts[req_key] === req_value
+        )))
     })
-
-    if (!foundNextQuestion) {
+    if (nextQuestion === null) {
       setcurrentQuestion(questions.find((question) => 
         question.final
       ))
       setFinal(true)
+    }
+    else { 
+      if (nextQuestion.final) {
+        setFinal(true)
+      }
+      setcurrentQuestion(nextQuestion)
     }
   }
 
@@ -245,8 +244,10 @@ const Expert = () => {
     setKB(JSON.parse(JSON.stringify(KB)))
     setFactsFromAnswers({})
     setInferredFacts({})
+    setConclusionFacts({})
     setQuestions([...Questions])
     setcurrentQuestion(Questions[0])
+    setSafety(0)
   }
 
   const displayRestartAlert = async () => {
@@ -305,7 +306,7 @@ const Expert = () => {
         </>
       )
       }
-      {FactsButton(factsFromAnswers, inferredFacts, safety)}
+      {FactsButton(factsFromAnswers, inferredFacts, conclusionFacts, safety, kb.facts)}
       {showRestartButton()}
     </div>
   )

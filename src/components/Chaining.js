@@ -2,7 +2,7 @@ import React from 'react'
 
 
 
-const Chaining = (options, kb, factsFromAnswers, inferredFacts) => {
+const Chaining = (options, kb, factsFromAnswers, inferredFacts, conclusionFacts) => {
 
   // add new facts to kb from answer
   const addFactsFromAnswers = () => {
@@ -20,9 +20,9 @@ const Chaining = (options, kb, factsFromAnswers, inferredFacts) => {
       kb.rules.forEach((rule) => {
         // loop over all premises in the rule
         let flag = 1
-        rule.premises_keys.forEach((key,idx) => {
-          let value = rule.premises_values[idx]
-          if (kb.facts[key] !== value) {
+        rule.premises_keys.forEach((prem_key, idx) => {
+          let prem_value = rule.premises_values[idx]
+          if (kb.facts[prem_key] !== prem_value) {
             flag = 0
           }
         })
@@ -34,7 +34,6 @@ const Chaining = (options, kb, factsFromAnswers, inferredFacts) => {
             new_rules = new_rules + 1
             kb.facts[key] = value
             inferredFacts[key] = value
-            kb.facts['safety'] += rule.score
           }
         }
       })

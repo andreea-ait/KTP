@@ -2,14 +2,14 @@ import { useState } from 'react'
 import { Button } from 'react-bootstrap'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 
-const FactsButton = (factsFromAnswers, inferredFacts, safety) => {
+const FactsButton = (factsFromAnswers, inferredFacts, conclusionFacts, safety, kb) => {
   const [showF, setShowF] = useState(false)
 
   const showFacts = () => {
     return (
       <>
        <h5 className='result'>
-        New facts added to KB: <br/>
+        Facts added directly to KB: <br/>
         </h5>
         <div>
         {
@@ -24,7 +24,7 @@ const FactsButton = (factsFromAnswers, inferredFacts, safety) => {
         </div>
 
         <h5 className='result'>
-        New facts inferred from the rules: <br/>
+        Facts inferred from the rules: <br/>
         </h5>
         <div>
         {
@@ -44,6 +44,7 @@ const FactsButton = (factsFromAnswers, inferredFacts, safety) => {
         <div>
           {safety + "%"}
         </div>
+        <br/>
       </>
     )
   }
