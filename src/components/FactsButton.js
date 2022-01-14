@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button } from 'react-bootstrap'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 
-const FactsButton = (factsFromAnswers, inferredFacts, conclusionFacts, safety, kb) => {
+const FactsButton = (factsFromAnswers, inferredFacts, safety) => {
   const [showF, setShowF] = useState(false)
 
   const showFacts = () => {
@@ -51,10 +51,12 @@ const FactsButton = (factsFromAnswers, inferredFacts, conclusionFacts, safety, k
 
   return (
     <>
-        <br/><br/>
+        <br/>
+        <div style={{paddingLeft: '50px'}}>
         <Button variant="info" onClick={() => {setShowF(!showF)}}>
           Show Facts
         </Button>
+        </div>
 
         <Offcanvas 
           show={showF}

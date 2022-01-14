@@ -6,6 +6,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Expert from './components/Expert';
 import { render } from "react-dom";
 import Header from './components/Header';
+import Security from './components/info/Security';
+import System from './components/info/System';
+import Devs from './components/info/Devs';
 
 
 const rootElement = document.getElementById("root");
@@ -17,7 +20,9 @@ render(
       <Routes>
         <Route exact path="/" element={<App />} />
         <Route exact path="/expert" element={<Expert />} />
-        {/* <Route exact path="/quizz" element={<Quizz />} /> */}
+        <Route exact path="/info/expert-system" element={<System/>} />
+        <Route exact path="/info/home-security" element={<Security/>} />
+        <Route exact path="/info/developers" element={<Devs/>} />
       </Routes>
     </BrowserRouter>
 

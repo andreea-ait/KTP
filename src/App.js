@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom';
+import { Card } from 'react-bootstrap';
 import Security from './security.mp4'
 
 function App() {
 return (
   <>
     <video 
-      autoPlay 
-      loop
-      muted
+      autoPlay loop muted
       style={{
         position: 'absolute',
         width: '100%',
@@ -21,12 +20,17 @@ return (
     >
       <source src={Security} type='video/mp4'/>
     </video>
-    <div className="position-absolute top-50 start-50 translate-middle text-white">
-      <h1>How safe is my home?</h1>
-      <div className="position-absolute bottom--100 start-50 translate-middle-x">
-        <Link to="/expert"><button className="btn btn-primary">Find out</button></Link>
-      </div>
-    </div>
+    <Card style={{ height: '6rem', backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
+      <Card.Body>
+        <div className="position-absolute top-50 start-50 translate-middle text-white">
+          <h2>Is your home safe?</h2>
+          <div className="position-absolute bottom--100 start-50 translate-middle-x">
+            <br/><br/>
+            <Link to="/expert"><button className="btn btn-primary">Find out</button></Link>
+          </div>
+        </div>
+      </Card.Body>
+    </Card>
   </>
 );
 }

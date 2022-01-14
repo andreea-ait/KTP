@@ -12,10 +12,10 @@ const Header = () => {
                 <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/expert">Start New Quiz</Nav.Link>
                 <NavDropdown title="Get Info" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.1">Expert System</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Home Security</NavDropdown.Item>
+                  <NavDropdown.Item href="/info/expert-system">Expert System</NavDropdown.Item>
+                  <NavDropdown.Item href="/info/home-security">Home Security</NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action/3.4">Developers</NavDropdown.Item>
+                  <NavDropdown.Item href="/info/developers">Developers</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
             </Navbar.Collapse>

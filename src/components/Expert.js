@@ -6,6 +6,8 @@ import FactsButton from './FactsButton';
 import Chaining from './Chaining';
 import Result from './Result';
 import Security from '../security_background.mp4'
+import { Card } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 
 const Expert = () => {
@@ -13,7 +15,6 @@ const Expert = () => {
   const [kb, setKB] = useState(JSON.parse(JSON.stringify(KB)))
   const [factsFromAnswers, setFactsFromAnswers] = useState({})
   const [inferredFacts, setInferredFacts] = useState({})
-  const [conclusionFacts, setConclusionFacts] = useState({})
 
   const [index, setIndex] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
@@ -24,14 +25,17 @@ const Expert = () => {
 
   const [safety, setSafety] = useState(0)
 
+  const pad = { paddingLeft: '50px' }
+  const small = { fontSize: '15px', paddingLeft: '50px' }
+
   const showQuestion = () => {
     return (
       <>
-        <div className='text-white mt-2'>
+        <div className='text-white mt-2' style={small}>
           Question {index + 1}
         </div>
-        <div className='questionText text-white mt-2'> 
-          {currentQuestion.text}<br/>
+        <div className='questionText text-white mt-2' style={pad}> 
+          {currentQuestion.text}
         </div>
       </>
     )
@@ -53,7 +57,7 @@ const Expert = () => {
 
   const showRadioOptions = () => {
     return (
-      <div className='text-white mt-3'> {
+      <div className='text-white mt-3' style={pad}> {
         currentQuestion.options.map((option, index) => 
           <ul key={index}>
             <input 
@@ -108,7 +112,7 @@ const Expert = () => {
 
   const showYesNoOptions = () => {
     return (
-      <div className='text-white mt-3'>
+      <div className='text-white mt-3' style={pad}>
         <ul key='yes'>
           <input 
             type='radio'
@@ -165,16 +169,16 @@ const Expert = () => {
     }
 
     return (
-      <>
+      <div style={pad}>
         <br/>
-        <button 
+        <Button 
           onClick={handleNextQuestion} 
-          className="btn btn-primary"
+          className="primary"
           disabled={buttonDisabled}
         >
           {buttonName}
-        </button>
-      </>
+        </Button>
+      </div>
     )
   }
 
@@ -196,7 +200,7 @@ const Expert = () => {
       setSafety(safety + options[0].score)
     }
 
-    Chaining(options, kb, factsFromAnswers, inferredFacts, conclusionFacts)
+    Chaining(options, kb, factsFromAnswers, inferredFacts)
 
     setSelectedAnswer(null)
     setcurrentQuestion(null)
@@ -246,7 +250,6 @@ const Expert = () => {
     setKB(JSON.parse(JSON.stringify(KB)))
     setFactsFromAnswers({})
     setInferredFacts({})
-    setConclusionFacts({})
     setQuestions([...Questions])
     setcurrentQuestion(Questions[0])
     setSafety(0)
@@ -265,14 +268,15 @@ const Expert = () => {
 
   const showRestartButton = () => {
     return (
-      <div>
+      <div style={pad}>
         <br/>
-        <button 
+        <Button 
           onClick={displayRestartAlert} 
-          className="btn btn-secondary"
+          variant="secondary"
+          size="sm"
         >
           Restart expert system
-        </button>
+        </Button>
       </div>
     )
   }
@@ -310,20 +314,22 @@ const Expert = () => {
       </video>
       {notFinished ? (
         <>
-          {showQuestion()}
-          {showAnswers()}
+          <Card style={{backgroundColor: 'rgba(245, 245, 245, 0.2)'}}>
+            <Card.Body>{showQuestion()}</Card.Body>
+            <Card.Body>{showAnswers()}</Card.Body>
+          </Card>
           {showNextButton()}
         </>
       ) : (
         <>
           <div className='text-white mt-3'>
             {/* Here comes the result */}
-            {Result(kb.facts)}
+            {Result(kb.facts, safety)}
           </div>
         </>
       )
       }
-      {FactsButton(factsFromAnswers, inferredFacts, conclusionFacts, safety, kb.facts)}
+      {FactsButton(factsFromAnswers, inferredFacts, safety)}
       {showRestartButton()}
     </div>
   )

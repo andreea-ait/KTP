@@ -1,6 +1,7 @@
+import { Card } from "react-bootstrap"
 import Outcomes from "./Outcomes"
 
-const Result = (all_facts) => {
+const Result = (all_facts, safety) => {
 
   const findResults = () => {
     // find all the possible outcomes
@@ -16,8 +17,18 @@ const Result = (all_facts) => {
   }
 
   return (
-    <div>
-      {findResults().split('\n').map((str, id) => <p key={id}>{str}</p>)}
+    <div style={{padding: '40px'}}>
+      <Card style={{backgroundColor: 'rgba(245, 245, 245, 0.2)'}}>
+        <Card.Body>
+          <h1>Result</h1>
+          <h3>
+            Overall home safety: {safety + "%"}
+          </h3>
+        </Card.Body>
+        <Card.Body>
+          {findResults().split('\n').map((str, id) => <p key={id}>{str}</p>)}
+        </Card.Body>
+      </Card>
     </div>
   )
 }
