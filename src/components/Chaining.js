@@ -1,7 +1,5 @@
 import React from 'react'
 
-
-
 const Chaining = (options, kb, factsFromAnswers, inferredFacts, conclusionFacts) => {
 
   // add new facts to kb from answer

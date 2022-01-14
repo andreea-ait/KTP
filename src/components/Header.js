@@ -5,7 +5,7 @@ const Header = () => {
       <header className = "header">
         <Navbar bg="light" expand="lg">
           <Container>
-            <Navbar.Brand href="#home">Home Security Expert System</Navbar.Brand>
+            <Navbar.Brand href="/">Home Security Expert System</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">

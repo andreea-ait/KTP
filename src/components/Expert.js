@@ -4,6 +4,8 @@ import KB from './KB'
 import Questions from './Questions';
 import FactsButton from './FactsButton';
 import Chaining from './Chaining';
+import Result from './Result';
+import Security from '../security_background.mp4'
 
 
 const Expert = () => {
@@ -292,6 +294,20 @@ const Expert = () => {
 
   return (
     <div className='quiz'>
+      <video autoPlay loop muted
+        style={{
+          position: 'absolute',
+          width: '100%',
+          left: '50%',
+          top: '50%',
+          height: '100%',
+          objectFit: 'cover',
+          transform: 'translate(-50%, -50%)',
+          zIndex: '-1'
+        }}
+      >
+        <source src={Security} type='video/mp4'/>
+      </video>
       {notFinished ? (
         <>
           {showQuestion()}
@@ -301,7 +317,8 @@ const Expert = () => {
       ) : (
         <>
           <div className='text-white mt-3'>
-            Here comes the result
+            {/* Here comes the result */}
+            {Result(kb.facts)}
           </div>
         </>
       )

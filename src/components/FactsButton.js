@@ -39,7 +39,7 @@ const FactsButton = (factsFromAnswers, inferredFacts, conclusionFacts, safety, k
         </div>
 
         <h5 className='result'>
-          Safety:
+          Home safety:
         </h5>
         <div>
           {safety + "%"}
