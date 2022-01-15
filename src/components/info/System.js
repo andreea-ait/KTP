@@ -27,7 +27,12 @@ const System = () => {
               <h1>
                 About Expert System
               </h1>
-              Add info about the expert system
+              Hello there!<br></br>
+              <br></br>
+              My name is SecuroKeck and I am here to make sure you are safe. Your security is my priority! But first, let’s get to know each other. <br></br>
+              I am a Knowledge-Based system designed carefully and in close cooperation with a security expert that is the head of Valtech Trading (https://valtech-trading.ro/). <br></br>
+              I offer an interactive question-answer dialogue that contains transparent and explicit reasoning steps. <br></br>
+              In order to determine your home security level and to give you the best possible recommendations for your situation, I will ask you close-ended questions regarding your already existing home security and situation. Based on your answers, I will transmit your current situation and give you recommendations that could improve your security and, consequently, peace of mind.
             </div>
           </Card.Body>
         </Card>
