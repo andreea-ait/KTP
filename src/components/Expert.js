@@ -58,13 +58,13 @@ const Expert = () => {
   const showRadioOptions = () => {
     return (
       <div className='text-white mt-3' style={pad}> {
-        currentQuestion.options.map((option, index) => 
-          <ul key={index}>
+        currentQuestion.options.map((option, idx) => 
+          <ul key={idx}>
             <input 
               onClick={() => {
-                setSelectedAnswer(index)
+                setSelectedAnswer(idx)
               }}
-              checked={selectedAnswer === index}
+              checked={selectedAnswer === idx}
               onChange={() => {}}
               type='radio'
             />
@@ -242,6 +242,7 @@ const Expert = () => {
   }
 
   const restartExpertSystem = () => {
+    setQuestions([...Questions])
     setSelectedAnswer(null)
     setNotFinished(true)
     setFinal(false)
@@ -250,7 +251,8 @@ const Expert = () => {
     setKB(JSON.parse(JSON.stringify(KB)))
     setFactsFromAnswers({})
     setInferredFacts({})
-    setQuestions([...Questions])
+    Questions[0].options[0].fact_value = false
+    Questions[0].options[1].fact_value = false
     setcurrentQuestion(Questions[0])
     setSafety(0)
   }
@@ -294,7 +296,6 @@ const Expert = () => {
   useEffect(() => {
     restartExpertSystem()
   }, [location])
-
 
   return (
     <div className='quiz'>

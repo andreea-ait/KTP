@@ -240,7 +240,7 @@ const Questions = [
     options: [
       {
         text: "",
-        fact_key: 'bars',
+        fact_key: 'ground_floor_bars',
         fact_value: false, 
         score: 3
       }
@@ -341,19 +341,34 @@ const Questions = [
     id: 22,
     text: "Do you have burglar-proof windows?",
     type: 'yes_no',
-    requirements: {'house': true},
+    requirements: {'house': true, 'remote': false},
     options: [
       {
         text: "",
         fact_key: 'windows',
         fact_value: false, 
-        score: 1
+        score: 7
       }
     ]
   },
 
   {
     id: 23,
+    text: "Do you have burglar-proof windows?",
+    type: 'yes_no',
+    requirements: {'house': true, 'remote': true},
+    options: [
+      {
+        text: "",
+        fact_key: 'windows',
+        fact_value: false, 
+        score: 4
+      }
+    ]
+  },
+
+  {
+    id: 24,
     text: "Do you have an intercom system at your entrances?",
     type: 'yes_no',
     requirements: {'house': true},
@@ -368,7 +383,7 @@ const Questions = [
   },
 
   {
-    id: 24,
+    id: 25,
     text: "Do you live in a remote area?",
     type: 'yes_no',
     requirements: {'house': true},
@@ -383,7 +398,7 @@ const Questions = [
   },
 
   {
-    id: 25,
+    id: 26,
     text: "Do you have perimeter lighting? (lights with motion sensors)?",
     type: 'yes_no',
     requirements: {'remote': true},
@@ -398,7 +413,7 @@ const Questions = [
   },
 
   {
-    id: 26,
+    id: 27,
     text: "Do you have a surveillance system on the perimeter of your courtyard?",
     type: 'yes_no',
     requirements: {'remote': true},
@@ -413,7 +428,7 @@ const Questions = [
   },
 
   {
-    id: 27,
+    id: 28,
     text: "Do you have metal doors at the entrances of your house?",
     type: 'yes_no',
     requirements: {'remote': true},
@@ -428,14 +443,14 @@ const Questions = [
   },
 
   {
-    id: 28,
+    id: 29,
     text: "Do you have metal doors at the entrances of your house?",
     type: 'yes_no',
     requirements: {'remote': false},
     options: [
       {
         text: "",
-        fact_key: 'metal_door_not_remote',
+        fact_key: 'metal_door',
         fact_value: false,
         score: 6
       }
@@ -443,7 +458,7 @@ const Questions = [
   },
 
   {
-    id: 29,
+    id: 30,
     text: "Do you feel safe when you are home alone in general?",
     type: 'yes_no',
     final: true,

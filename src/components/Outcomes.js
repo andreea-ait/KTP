@@ -6,6 +6,24 @@ const Outcomes = [
   },
 
   {
+    id: 'how_to_feel_safer',
+    title: "Conclusion",
+    text: "You do not feel safe in your home at the moment. Here you can find some recommendations to make your home a safer place!"
+  },
+
+  {
+    id: 'feel_safe_home_unprotected',
+    title: "Conclusion",
+    text: "It is good that you feel safe in your home. However, be aware that many unexpected things can happen. For a better protection of your home, this is the expert's reccomendation for you."
+  },
+
+  {
+    id: 'fully_protected_feels_safe',
+    title: "Conclusion",
+    text: "You feel safe and you are safe! Your home is fully protected based on our expertise."
+  },
+
+  {
     id: 'a1_flat',
     title: 'Awareness',
     text: "Your home is fully equipped with an anti-burglary system."
@@ -126,26 +144,32 @@ const Outcomes = [
   },
 
   {
-    id: 'remote_1',
-    title: '',
+    id: 'rem1',
+    title: 'Remote area reccomendation',
     text: "Your remote home is totally secured!"
   },
 
   {
-    id: 'remote_2',
-    title: '',
+    id: 'rem2',
+    title: 'Remote area strong reccomendation for recognition',
     text: "Your remote home is not fully secured. The absence of a court-yard surveillance system increases the chances of a successful break-in. Spotting the danger before entering your home could make a crucial difference."
   },
 
   {
-    id: 'remote_3',
-    title: '',
+    id: 'rem3',
+    title: 'Remote area reccomendation',
     text: "Your remote home has a substantial weakness. The absence of a back-up power generator drastically increases the chances of a successful break-in."
   },
 
   {
-    id: 'remote_4',
-    title: '',
+    id: 'rem4',
+    title: 'Remote area reccomendation for visibility',
+    text: "Given the fact that you live in a remote area, we recommend installing perimeter lighting for the safety of your home."
+  },
+
+  {
+    id: 'rem5',
+    title: 'Remote area strong reccomendation',
     text: "Your remote home is not secured! We recommend you to buy a backup generator, install perimeter lights and surveillance cameras on the fence to assure your safety in your home."
   },
 
