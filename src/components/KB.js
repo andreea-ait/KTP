@@ -73,8 +73,15 @@ const KB =
       },
 
       {
-        premises_keys: ['house', 'indoor_surveillance', 'exterior_surveillance'],
-        premises_values: [true, false, false],
+        premises_keys: ['house', 'indoor_surveillance'],
+        premises_values: [true, false],
+        conclusion_key: 'full_surveillance',
+        conclusion_value: false
+      },
+
+      {
+        premises_keys: ['house', 'exterior_surveillance'],
+        premises_values: [true, false],
         conclusion_key: 'full_surveillance',
         conclusion_value: false
       },
@@ -92,21 +99,6 @@ const KB =
         premises_values: [true, true],
         conclusion_key: 'metal_door',
         conclusion_value: true
-      },
-
-      // ground windows bars
-      {
-        premises_keys: ['house', 'bars'],
-        premises_values: [true, true],
-        conclusion_key: 'ground_floor_bars',
-        conclusion_value: true
-      },
-
-      {
-        premises_keys: ['house', 'bars'],
-        premises_values: [true, false],
-        conclusion_key: 'ground_floor_bars',
-        conclusion_value: false
       },
       
       // awareness level (in case of burglars)
@@ -154,8 +146,36 @@ const KB =
       },
 
       {
+        premises_keys: ['metal_door', 'ground_floor_bars'],
+        premises_values: [true, true],
+        conclusion_key: 'max_delaying',
+        conclusion_value: true
+      },
+
+      {
         premises_keys: ['flat', 'ground_floor', 'metal_door'],
         premises_values: [true, false, false],
+        conclusion_key: 'max_delaying',
+        conclusion_value: false
+      },
+
+      {
+        premises_keys: ['metal_door'],
+        premises_values: [false],
+        conclusion_key: 'max_delaying',
+        conclusion_value: false
+      },
+
+      {
+        premises_keys: ['flat', 'ground_floor', 'ground_floor_bars'],
+        premises_values: [true, true, false],
+        conclusion_key: 'max_delaying',
+        conclusion_value: false
+      },
+
+      {
+        premises_keys: ['house', 'ground_floor_bars'],
+        premises_values: [true, false],
         conclusion_key: 'max_delaying',
         conclusion_value: false
       },
@@ -167,12 +187,12 @@ const KB =
         conclusion_value: true
       },
 
-      {
-        premises_keys: ['metal_door', 'ground_floor' ,'ground_floor_bars'],
-        premises_values: [true, true, true],
-        conclusion_key: 'max_delaying',
-        conclusion_value: true
-      },
+      // {
+      //   premises_keys: ['metal_door', 'ground_floor' ,'ground_floor_bars'],
+      //   premises_values: [true, true, true],
+      //   conclusion_key: 'max_delaying',
+      //   conclusion_value: true
+      // },
 
       {
         premises_keys: ['metal_door', 'ground_floor' ,'ground_floor_bars'],
@@ -205,8 +225,8 @@ const KB =
       // recognition
       // recognition for both flat/apartment and house
       {
-        premises_keys: ['full_surveillance'],
-        premises_values: [false],
+        premises_keys: ['full_surveillance', 'flat'],
+        premises_values: [false, true],
         conclusion_key: 'no_recognition',
         conclusion_value: true
       },
@@ -237,6 +257,13 @@ const KB =
         premises_keys: ['house', 'indoor_surveillance', 'exterior_surveillance'],
         premises_values: [true, true, false],
         conclusion_key: 'good_recognition_no_outdoor',
+        conclusion_value: true
+      },
+
+      {
+        premises_keys: ['house', 'indoor_surveillance', 'exterior_surveillance'],
+        premises_values: [true, false, false],
+        conclusion_key: 'no_recognition',
         conclusion_value: true
       },
 
