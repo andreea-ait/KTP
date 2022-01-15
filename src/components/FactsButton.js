@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button } from 'react-bootstrap'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 
-const FactsButton = (factsFromAnswers, inferredFacts, safety) => {
+const FactsButton = (factsFromAnswers, inferredFacts, safety, factsScores) => {
   const [showF, setShowF] = useState(false)
 
   const showFacts = () => {
@@ -45,6 +45,21 @@ const FactsButton = (factsFromAnswers, inferredFacts, safety) => {
           {safety + "%"}
         </div>
         <br/>
+
+        <h5 className='result'>
+        Scores of the facts used for safety calculation: <br/>
+        </h5>
+        <div>
+        {
+          Object.entries(factsScores)
+            .map(([key,value]) => (
+              <div key={key}>
+              {key}: {"" + value + "%"} <br/>
+              </div>
+            ))
+        }
+        <br/>
+        </div>
       </>
     )
   }
@@ -67,7 +82,7 @@ const FactsButton = (factsFromAnswers, inferredFacts, safety) => {
           backdrop={true}
         >
           <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Facts known so far</Offcanvas.Title>
+            <Offcanvas.Title><u><b>Facts Panel</b></u></Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
             {showFacts()}

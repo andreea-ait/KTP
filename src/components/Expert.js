@@ -15,6 +15,7 @@ const Expert = () => {
   const [kb, setKB] = useState(JSON.parse(JSON.stringify(KB)))
   const [factsFromAnswers, setFactsFromAnswers] = useState({})
   const [inferredFacts, setInferredFacts] = useState({})
+  const [factsScores, setFactsScores] = useState({})
 
   const [index, setIndex] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
@@ -198,6 +199,7 @@ const Expert = () => {
 
     if (options[0].score > 0 && selectedAnswer){
       setSafety(safety + options[0].score)
+      factsScores[options[0].fact_key] = options[0].score
     }
 
     Chaining(options, kb, factsFromAnswers, inferredFacts)
@@ -218,9 +220,7 @@ const Expert = () => {
   }
 
   const setNextQuestion = () => {
-    // let foundNextQuestion = false
     let nextQuestion = null
-
     nextQuestion = questions.find((question) => {
       return (Object.keys(question.requirements).length === 0 && !question.final) || 
         (Object.entries(question.requirements).every(([req_key, req_value]) => (
@@ -251,6 +251,7 @@ const Expert = () => {
     setKB(JSON.parse(JSON.stringify(KB)))
     setFactsFromAnswers({})
     setInferredFacts({})
+    setFactsScores({})
     Questions[0].options[0].fact_value = false
     Questions[0].options[1].fact_value = false
     setcurrentQuestion(Questions[0])
@@ -330,7 +331,7 @@ const Expert = () => {
         </>
       )
       }
-      {FactsButton(factsFromAnswers, inferredFacts, safety)}
+      {FactsButton(factsFromAnswers, inferredFacts, safety, factsScores)}
       {showRestartButton()}
     </div>
   )
