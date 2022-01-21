@@ -14,6 +14,7 @@ const KB =
       //   conclusion_value: true,
       // },
 
+      // MATCHING
       // rapid response
       {
         premises_keys: ['flat', 'flat_rapid_response'],
@@ -50,6 +51,7 @@ const KB =
         conclusion_value: false
       },
 
+      // COMBINATIONS
       // surveillance
       {
         premises_keys: ['flat', 'flat_surveillance'],
@@ -59,8 +61,8 @@ const KB =
       },
 
       {
-        premises_keys: ['house', 'indoor_surveillance', 'exterior_surveillance'],
-        premises_values: [true, true, true],
+        premises_keys: ['house', 'indoor_surveillance', 'exterior_surveillance', 'remote'],
+        premises_values: [true, true, true, false],
         conclusion_key: 'full_surveillance',
         conclusion_value: true
       },
@@ -73,8 +75,22 @@ const KB =
       },
 
       {
-        premises_keys: ['house', 'indoor_surveillance', 'exterior_surveillance'],
-        premises_values: [true, false, false],
+        premises_keys: ['house', 'indoor_surveillance'],
+        premises_values: [true, false],
+        conclusion_key: 'full_surveillance',
+        conclusion_value: false
+      },
+
+      {
+        premises_keys: ['house', 'exterior_surveillance'],
+        premises_values: [true, false],
+        conclusion_key: 'full_surveillance',
+        conclusion_value: false
+      },
+
+      {
+        premises_keys: ['remote', 'surveillance_courtyard'],
+        premises_values: [true, false],
         conclusion_key: 'full_surveillance',
         conclusion_value: false
       },
@@ -92,21 +108,6 @@ const KB =
         premises_values: [true, true],
         conclusion_key: 'metal_door',
         conclusion_value: true
-      },
-
-      // ground windows bars
-      {
-        premises_keys: ['house', 'bars'],
-        premises_values: [true, true],
-        conclusion_key: 'ground_floor_bars',
-        conclusion_value: true
-      },
-
-      {
-        premises_keys: ['house', 'bars'],
-        premises_values: [true, false],
-        conclusion_key: 'ground_floor_bars',
-        conclusion_value: false
       },
       
       // awareness level (in case of burglars)
@@ -154,8 +155,36 @@ const KB =
       },
 
       {
+        premises_keys: ['metal_door', 'ground_floor_bars'],
+        premises_values: [true, true],
+        conclusion_key: 'max_delaying',
+        conclusion_value: true
+      },
+
+      {
         premises_keys: ['flat', 'ground_floor', 'metal_door'],
         premises_values: [true, false, false],
+        conclusion_key: 'max_delaying',
+        conclusion_value: false
+      },
+
+      {
+        premises_keys: ['metal_door'],
+        premises_values: [false],
+        conclusion_key: 'max_delaying',
+        conclusion_value: false
+      },
+
+      {
+        premises_keys: ['flat', 'ground_floor', 'ground_floor_bars'],
+        premises_values: [true, true, false],
+        conclusion_key: 'max_delaying',
+        conclusion_value: false
+      },
+
+      {
+        premises_keys: ['house', 'ground_floor_bars'],
+        premises_values: [true, false],
         conclusion_key: 'max_delaying',
         conclusion_value: false
       },
@@ -164,13 +193,6 @@ const KB =
         premises_keys: ['flat', 'ground_floor', 'metal_door'],
         premises_values: [true, false, false],
         conclusion_key: 'no_delaying',
-        conclusion_value: true
-      },
-
-      {
-        premises_keys: ['metal_door', 'ground_floor' ,'ground_floor_bars'],
-        premises_values: [true, true, true],
-        conclusion_key: 'max_delaying',
         conclusion_value: true
       },
 
@@ -205,8 +227,8 @@ const KB =
       // recognition
       // recognition for both flat/apartment and house
       {
-        premises_keys: ['full_surveillance'],
-        premises_values: [false],
+        premises_keys: ['full_surveillance', 'flat'],
+        premises_values: [false, true],
         conclusion_key: 'no_recognition',
         conclusion_value: true
       },
@@ -237,6 +259,13 @@ const KB =
         premises_keys: ['house', 'indoor_surveillance', 'exterior_surveillance'],
         premises_values: [true, true, false],
         conclusion_key: 'good_recognition_no_outdoor',
+        conclusion_value: true
+      },
+
+      {
+        premises_keys: ['house', 'indoor_surveillance', 'exterior_surveillance'],
+        premises_values: [true, false, false],
+        conclusion_key: 'no_recognition',
         conclusion_value: true
       },
 
@@ -285,50 +314,6 @@ const KB =
         conclusion_key: 'no_coverage',
         conclusion_value: false
       },
-
-      // partial coverage with just 1 missing
-      // {
-      //   premises_keys: ['remote_area', 'surveillance_courtyard', 'generator', 'perimeter'],
-      //   premises_values: [true, false, true, true],
-      //   conclusion_key: 'partial_coverage_without_surveillance',
-      //   conclusion_value: true
-      // },
-
-      // {
-      //   premises_keys: ['remote_area', 'surveillance_courtyard', 'generator', 'perimeter'],
-      //   premises_values: [true, true, false, true],
-      //   conclusion_key: 'partial_coverage_without_generator',
-      //   conclusion_value: true
-      // },
-
-      // {
-      //   premises_keys: ['remote_area', 'surveillance_courtyard', 'generator', 'perimeter'],
-      //   premises_values: [true, true, true, false],
-      //   conclusion_key: 'partial_coverage_without_perimeter',
-      //   conclusion_value: true
-      // },
-
-      // 2 missing
-      // {
-      //   premises_keys: ['remote_area', 'surveillance_courtyard', 'generator', 'perimeter'],
-      //   premises_values: [true, true, false, false],
-      //   conclusion_key: 'almost_no_coverage_with_surveillance',
-      //   conclusion_value: true
-      // },
-
-      // {
-      //   premises_keys: ['remote_area', 'surveillance_courtyard', 'generator', 'perimeter'],
-      //   premises_values: [true, false, true, false],
-      //   conclusion_key: 'almost_no_coverage_with_generator',
-      //   conclusion_value: true
-      // },
-
-      // {
-      //   premises_keys: ['remote_area', 'surveillance_courtyard', 'generator', 'perimeter'],
-      //   premises_values: [true, false, false, true],
-      //   conclusion_key: 'almost_no_coverage_with_perimeter',
-      //   conclusion_value: true
-      // },
 
       // FINAL OUTCOMES
       {
@@ -591,30 +576,7 @@ const KB =
         premises_values: [true, true],
         conclusion_key: 'rem5',
         conclusion_value: true
-      },
-
-      // {
-      //   premises_keys: ['remote_area', 'partial_coverage_without_surveillance'],
-      //   premises_values: [true, true],
-      //   conclusion_key: 'rem2',
-      //   conclusion_value: true
-      // },
-
-      // {
-      //   premises_keys: ['remote_area', 'partial_coverage_without_generator'],
-      //   premises_values: [true, true],
-      //   conclusion_key: 'rem3',
-      //   conclusion_value: true
-      // },
-
-      // {
-      //   premises_keys: ['remote_area', 'no_coverage'],
-      //   premises_values: [true, true],
-      //   conclusion_key: 'rem4',
-      //   conclusion_value: true
-      // },
-    
-
+      }
     ]
   }
 

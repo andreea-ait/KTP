@@ -152,7 +152,7 @@ const Outcomes = [
   {
     id: 'rem2',
     title: 'Remote area strong reccomendation for recognition',
-    text: "Your remote home is not fully secured. The absence of a court-yard surveillance system increases the chances of a successful break-in. Spotting the danger before entering your home could make a crucial difference."
+    text: "The absence of a court-yard surveillance system increases the chances of a successful break-in. Spotting the danger before entering your home could make a crucial difference."
   },
 
   {
