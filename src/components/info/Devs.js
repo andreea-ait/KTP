@@ -27,7 +27,7 @@ const Devs = () => {
               <h1>
                 About us
               </h1>
-              We are the parents of the SecuroKeck expert system. Our team is formed out of 3 Artificial Intelligence students currently in the third year at University of Groningen. <br></br>
+              We are the parents of the SecuroCheck expert system. Our team is formed out of 3 Artificial Intelligence students currently in the third year at University of Groningen. <br></br>
               Andreea Tudor (a.tudor.3@student.rug.nl) - s4020960  <br></br>
               Andra Minculescu (a.c.minculescu@student.rug.nl) - s3993507  <br></br>
               Adrian Serbanescu (v.a.serbanescu@student.rug.nl) - s3944735
