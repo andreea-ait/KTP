@@ -196,6 +196,13 @@ const KB =
         conclusion_value: true
       },
 
+      // {
+      //   premises_keys: ['metal_door', 'ground_floor' ,'ground_floor_bars'],
+      //   premises_values: [true, true, true],
+      //   conclusion_key: 'max_delaying',
+      //   conclusion_value: true
+      // },
+
       {
         premises_keys: ['metal_door', 'ground_floor' ,'ground_floor_bars'],
         premises_values: [true, true, false],

@@ -27,7 +27,8 @@ const Security = () => {
                 <h1>
                   About home security
                 </h1>
-              Add info about the home security
+                Home security includes both the security hardware placed on a property and individuals' personal security practices. Security hardware includes doors, locks, intercom, window bars, alarm systems, lighting, motion detectors, and security camera systems.
+                While personal security involves practices like ensuring doors are locked, alarms are activated, owning a dog, windows are closed and extra keys are not hidden outside.
             </div>
           </Card.Body>
         </Card>
