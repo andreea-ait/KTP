@@ -1,5 +1,6 @@
 import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap"
 
+// Navigation bar
 const Header = () => {
     return (
       <header className = "header">

@@ -1,3 +1,5 @@
+// list of all questions;
+// a question is shown only if the requirements (facts) have the value "true" in the kb
 const Questions = [
 
   {

@@ -1,3 +1,6 @@
+// list of all possible outcomes;
+// they all have an id corresponding to a fact in kb,
+// a title and the text/message
 const Outcomes = [
   {
     id: 'fully_protected_should_feel_safe',

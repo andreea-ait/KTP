@@ -29,6 +29,7 @@ const Expert = () => {
   const pad = { paddingLeft: '50px' }
   const small = { fontSize: '15px', paddingLeft: '50px' }
 
+  // shows the current question and its count
   const showQuestion = () => {
     return (
       <>
@@ -42,6 +43,7 @@ const Expert = () => {
     )
   }
 
+  // the system is implemented such that multiple types of input can be used
   const showAnswers = () => {
     const optionsType = currentQuestion.type
 
@@ -98,9 +100,6 @@ const Expert = () => {
             <input 
               onClick={() => handleCheckboxOptions(option)}
               type='checkbox'
-              // id={option}
-              // name={option}
-              // value={option}
             >
             </input>
             <label>{option.text}</label>
@@ -150,6 +149,8 @@ const Expert = () => {
     )
   }
 
+  // shows the next button
+  // or "Show result" button if the current question is the last one
   const showNextButton = () => {
     let buttonName = ""
     let buttonDisabled = false
@@ -169,6 +170,7 @@ const Expert = () => {
       )
     }
 
+    // the button is enabled only when an answer is selected
     return (
       <div style={pad}>
         <br/>
@@ -188,6 +190,7 @@ const Expert = () => {
     let options = currentQuestion.options
     
     if (optionsType === 'radio') {
+      // currently used only for the first question
       options[selectedAnswer].fact_value = true
     } else if (optionsType === 'checkbox') {
         setCountSelectedOptions(0)
@@ -197,16 +200,21 @@ const Expert = () => {
         options[0].fact_value = selectedAnswer
     }
 
+    // if the answer to the question is "yes", add its score 
+    // to the safety level
     if (options[0].score > 0 && selectedAnswer){
       setSafety(safety + options[0].score)
       factsScores[options[0].fact_key] = options[0].score
     }
 
+    // perform forward chaining
     Chaining(options, kb, factsFromAnswers, inferredFacts)
 
+    // reset params
     setSelectedAnswer(null)
     setcurrentQuestion(null)
     
+    // remove the question from the list
     const idx = questions.indexOf(currentQuestion)
     questions.splice(idx, 1)
 
@@ -221,12 +229,15 @@ const Expert = () => {
 
   const setNextQuestion = () => {
     let nextQuestion = null
+    // find the next question that can be asked based on the current facts
+    // and the requirements for each question
     nextQuestion = questions.find((question) => {
       return (Object.keys(question.requirements).length === 0 && !question.final) || 
         (Object.entries(question.requirements).every(([req_key, req_value]) => (
           kb.facts[req_key] === req_value
         )))
     })
+    // last question cases
     if (nextQuestion === null) {
       setcurrentQuestion(questions.find((question) => 
         question.final
@@ -242,6 +253,8 @@ const Expert = () => {
   }
 
   const restartExpertSystem = () => {
+    // reset all the parameters
+    // make new copies to the Questions and Knowledge Base (only containing the rules, no facts)
     setQuestions([...Questions])
     setSelectedAnswer(null)
     setNotFinished(true)
@@ -284,14 +297,14 @@ const Expert = () => {
     )
   }
 
-  // useEffect(() => {
-  //   window.onbeforeunload = function() {
-  //       return true;
-  //   }
-  //   return () => {
-  //       window.onbeforeunload = null;
-  //   }
-  // }, [])
+  useEffect(() => {
+    window.onbeforeunload = function() {
+        return true;
+    }
+    return () => {
+        window.onbeforeunload = null;
+    }
+  }, [])
 
   const location = useLocation()
   useEffect(() => {
@@ -300,6 +313,7 @@ const Expert = () => {
 
   return (
     <div className='quiz'>
+      {/* background */}
       <video autoPlay loop muted
         style={{
           position: 'absolute',
@@ -314,6 +328,8 @@ const Expert = () => {
       >
         <source src={Security} type='video/mp4'/>
       </video>
+
+      {/* if the quiz is not finished, show the question, else show the result */}
       {notFinished ? (
         <>
           <Card style={{backgroundColor: 'rgba(245, 245, 245, 0.2)'}}>

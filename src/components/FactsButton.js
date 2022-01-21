@@ -77,7 +77,6 @@ const FactsButton = (factsFromAnswers, inferredFacts, safety, factsScores) => {
           show={showF}
           onHide={() => setShowF(false)}
           placement='end'
-          // name: 'Enable both scrolling & backdrop'
           scroll={true}
           backdrop={true}
         >

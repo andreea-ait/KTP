@@ -9,6 +9,8 @@ const Result = (all_facts, safety) => {
       return (all_facts[outcome.id] === true)
     })  
 
+    // attach the title and text of each outcome to the string `conclusion`
+    // to be displayed
     let conclusion = ""
     final_results.forEach((result) => {
       conclusion = conclusion + result.title + ': ' + result.text + '\n\n'

@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import Security from './security.mp4'
 
+// Home page
 function App() {
 return (
   <>
+  {/* background */}
     <video 
       autoPlay loop muted
       style={{

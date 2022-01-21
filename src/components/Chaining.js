@@ -20,13 +20,16 @@ const Chaining = (options, kb, factsFromAnswers, inferredFacts) => {
         let flag = 1
         rule.premises_keys.forEach((prem_key, idx) => {
           let prem_value = rule.premises_values[idx]
+          // check premises
           if (kb.facts[prem_key] !== prem_value) {
             flag = 0
           }
         })
+        // premises found
         if (flag === 1) {
           let key = rule.conclusion_key
           let value = rule.conclusion_value
+          // check if conclusion is not already in kb
           if (kb.facts[key] !== value) {
             // new rule found
             new_rules = new_rules + 1
@@ -35,6 +38,7 @@ const Chaining = (options, kb, factsFromAnswers, inferredFacts) => {
           }
         }
       })
+      // no new rules found, so stop
       if (new_rules === 0) {
         stop = true
       }
