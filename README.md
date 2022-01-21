@@ -1,71 +1,41 @@
-# Getting Started with Create React App
+# Knowledge Technology Practical 
+# Expert System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Documentation:
 
-## Available Scripts
+https://reactjs.org
 
-In the project directory, you can run:
-First run `npm install` to install all the dependencies of the project
+How to install:
 
-### `npm start`
+https://reactjs.org/docs/create-a-new-react-app.html
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Install `Node >= 14.0 npm >= 5.6` from https://nodejs.org/en/
+2. To create a project and set up the development environment, run:
+  ```console
+  npx create-react-app my-app
+  cd my-app
+  ```
+3. To start a project, run:
+  ```console
+  npm start
+  ```
+The last command compiles the program, then the expert system can be viewed in the browser on the local host or network shown in the terminal.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Project structure
+This project was created using the command `2` shown above, which just creates a frontend build pipeline. The `src` directory contains the `JavaScript` files we implemented for this project, mainly:
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  - all the files under `components`
+    
+    - `Expert.js`: handles the entire system: questions and answer options, user input, computes the safety level, displays the buttons and the final result
+    - `Chaining.js`: adds the facts from the user's answers to the knowledge base and then performs forward chaining; it is called after each question is answered
+    - `Questions.js`: list containing all the questions; each question has an id, a fact key and a fact value, requirements (whether the question to be asked or not)
+    - `KB.js`: the initial knowledge base; it has two main members: `facts` and `rules`. Before being added new facts, it only holds the inference rules in dictionaries
+    - `Outcomes.js`: list of all possible outcomes, each of them containing the title, text and an id; the id is the name of the fact that must be inferred in order to show the corresponding outcome 
+    - `Result.js`: used the map the final facts inferred (needed for the result) and finds all the outcomes to be displayed in the results section
+    - `FactsButton.js`: handles the Facts Panel; it displays the latest rules (retrieved directly from the answers and inferred from the rules), the current score and how it was calculated
+    - `Header.js`: handles the menu bar
+    - `info` directory: the files display information about the system, the security domain and developers
+  - `App.js`: the home page
+  - `index.js`: contains the paths to different pages
+  - `index.css`: used for styling
+  - the `.mp4` files: used for background
